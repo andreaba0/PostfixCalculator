@@ -20,6 +20,7 @@ typedef struct evalRes {
 
 typedef struct dirtData {
 	char data[100];
+	char type;
 	struct dirtData*next;
 } dirtData;
 
@@ -27,5 +28,5 @@ int isLetter(char c);
 int isOperand(char c);
 int isNumber(char c);
 evalRes*evaluateAndExecute(dirtData**head, char*expression);
-dirtData*insertDirtData(dirtData**head, dirtData*current, char*data);
+dirtData*insertDirtData(dirtData**head, dirtData*current, char*data, char type);
 void displayDirtData(dirtData*head);
