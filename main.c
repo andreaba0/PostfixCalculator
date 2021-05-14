@@ -7,8 +7,11 @@ int main(int argc, char*argv[]) {
 	}
 
 	if(strlen(argv[1])<3) {
-		printf("Espressione non valida\n");
+		printf("Espressione non valida: %s\n", argv[1]);
 		return 1;
 	}
+	
+	dirtData*head=NULL;
+	evalRes*res = evaluateAndExecute(&head, argv[1]);
 	return 0;
 }
