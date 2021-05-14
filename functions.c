@@ -66,13 +66,13 @@ evalRes*evaluateAndExecute(dirtData**head, char*expression) {
 				break;
 		}
 		if(expression[i]==',') {
-			isALetter=0;
-			isANumber=0;
 			part[partIndex]='\0';
 			partIndex=0;
 			if(strlen(part)==0) continue;
 			if(isALetter) pointer=insertDirtData(head, pointer, part, 'o');
 			else pointer = insertDirtData(head, pointer, part, 'n');
+			isALetter=0;
+			isANumber=0;
 			continue;
 		}
 		if(isOperand(expression[i])) {
