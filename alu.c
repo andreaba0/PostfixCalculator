@@ -121,9 +121,11 @@ void executeInstruction(operandNode**head, operatorNode**headOp) {
 	if(!strcmp(operator, "pow")) {
 		int exp = stackPopOperand(head);
 		int base = stackPopOperand(head);
+		int res=1;
+		printf("Numeri: %d, %d\n", base, exp);
 		for(int i=0;i<exp;i++)
-			base=base*base;
-		stackPushOperand(head, base);
+			res=res*base;
+		stackPushOperand(head, res);
 	}
 }
 
