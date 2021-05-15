@@ -1,5 +1,5 @@
 calculator: main.o functions.o alu.o
-	gcc -o calculator.out main.o functions.o alu.o
+	gcc -o calculator.out main.o functions.o alu.o -lm
 
 main.o: main.c header.h
 	gcc -c main.c

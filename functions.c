@@ -112,6 +112,6 @@ evalRes*evaluateAndExecute(dirtData**head, char*expression) {
 			continue;
 		}
 	}
-	displayDirtData(*head);
+	//displayDirtData(*head);
 	return NULL;
 }

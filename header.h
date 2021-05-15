@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define INSTRLENGTH 15
 
@@ -11,7 +12,7 @@ typedef struct cellOperator {
 } operatorNode;
 
 typedef struct cellOperand {
-	char operand[INSTRLENGTH];
+	int operand;
 	struct cellOperand*next;
 } operandNode;
 
@@ -32,11 +33,19 @@ int isNumber(char c);
 evalRes*evaluateAndExecute(dirtData**head, char*expression);
 dirtData*insertDirtData(dirtData**head, dirtData*current, char*data, char type);
 void displayDirtData(dirtData*head);
-void stackPushOperand(operandNode**head, char*data);
+void stackPushOperand(operandNode**head, int data);
 void stackPushOpCode(operatorNode**head, char*data, int number);
-operandNode*stackPopOpCode();
-operatorNode*stackPopOperand();
+int stackPopOperand(operandNode**head);
 char*stackPop(dirtData**head);
 evalRes*executionUnit(dirtData**head, operandNode**headOp, operatorNode**headOpCode);
-char*topStackDataType(dirtData*head);
+char topStackDataType(dirtData*head);
 void displayStackOpCode(operatorNode*head);
+char*topStackDataValue(operatorNode*head);
+char*operandStackData(operandNode*head);
+void executeInstruction(operandNode**head, operatorNode**headOp);
+char*stackPopOpCode(operatorNode**head);
+void opCodeAnalyzer(dirtData**head, operandNode**headOp, operatorNode**headOpCode);
+void popAndDeleteOpCode(operatorNode**head);
+int precedenceHierarchy(char*data);
+char*topDirtDataStack(dirtData*head);
+void deleteFromDirtData(dirtData**head);
