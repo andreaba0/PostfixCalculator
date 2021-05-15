@@ -12,6 +12,11 @@ int main(int argc, char*argv[]) {
 	}
 	
 	dirtData*head=NULL;
+	operandNode*headOp=NULL;
+	operatorNode*headOpCode=NULL;
 	evalRes*res = evaluateAndExecute(&head, argv[1]);
+	free(res);
+	res = executionUnit(&head, &headOp, &headOpCode);
+	displayStackOpCode(headOpCode);
 	return 0;
 }
