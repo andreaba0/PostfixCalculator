@@ -2,31 +2,37 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define INSTRLENGTH 15
+
 typedef struct cellOperator {
-	char operator[12];
+	char operator[INSTRLENGTH];
 	int precedence;
 	struct cellOperator*next;
 } operatorNode;
 
 typedef struct cellOperand {
-	char operand[10];
+	char operand[INSTRLENGTH];
 	struct cellOperand*next;
 } operandNode;
 
 typedef struct evalRes {
-	char mex[100];
+	char mex[INSTRLENGTH];
 	double res;
 } evalRes;
 
 typedef struct dirtData {
-	char data[100];
+	char data[INSTRLENGTH];
 	char type;
 	struct dirtData*next;
 } dirtData;
 
 int isLetter(char c);
-int isOperand(char c);
+int isOpCode(char c);
 int isNumber(char c);
 evalRes*evaluateAndExecute(dirtData**head, char*expression);
 dirtData*insertDirtData(dirtData**head, dirtData*current, char*data, char type);
 void displayDirtData(dirtData*head);
+void stackPushOperand(operandNode**head);
+void stackPushOpCode(operatorNode**head);
+operandNode*stackPopOpCode();
+operatorNode*stackPopOperand();

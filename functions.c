@@ -12,7 +12,7 @@ int isNumber(char c) {
 	return 0;
 }
 
-int isOperand(char c) {
+int isOpCode(char c) {
 	switch(c) {
 		case '+':
 		case '-':
@@ -62,24 +62,22 @@ evalRes*evaluateAndExecute(dirtData**head, char*expression) {
 		if(i==strlen(expression)) {
 				if(partIndex==0) break;
 				if(isALetter) pointer=insertDirtData(head, pointer, part, 'o');
-				else pointer = insertDirtData(head, pointer, part, 'n');
+				if(isANumber) pointer = insertDirtData(head, pointer, part, 'n');
 				break;
 		}
 		if(expression[i]==',') {
-			part[partIndex]='\0';
-			partIndex=0;
-			if(strlen(part)==0) continue;
 			if(isALetter) pointer=insertDirtData(head, pointer, part, 'o');
-			else pointer = insertDirtData(head, pointer, part, 'n');
+			if(isANumber) pointer=insertDirtData(head, pointer, part, 'n');
+			partIndex=0;
 			isALetter=0;
 			isANumber=0;
-			continue;
+			part[0]='\0';
 		}
-		if(isOperand(expression[i])) {
+		if(isOpCode(expression[i])) {
 			if(isALetter||isANumber) {
 				part[partIndex]='\0';
 				if(isALetter) pointer = insertDirtData(head, pointer, part, 'o');
-				else pointer = insertDirtData(head, pointer, part, 'n');
+				if(isANumber) pointer = insertDirtData(head, pointer, part, 'n');
 				partIndex=0;
 				isALetter=0;
 				isANumber=0;
