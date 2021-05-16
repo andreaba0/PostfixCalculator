@@ -36,11 +36,13 @@ int precedenceHierarchy(char*data) {
 	if(!strcmp(data, "-")) return 1;
 	if(!strcmp(data, "*")) return 2;
 	if(!strcmp(data, "/")) return 2;
-	if(!strcmp(data, "^")) return 3;
-	if(!strcmp(data, "pow")) return 3;
-	if(!strcmp(data, "sqrt")) return 3;
-	if(!strcmp(data, "log")) return 3;
-	if(!strcmp(data, "minus")) return 3;
+	if(!strcmp(data, "%")) return 3;
+	if(!strcmp(data, "^")) return 4;
+	if(!strcmp(data, "pow")) return 4;
+	if(!strcmp(data, "sqrt")) return 4;
+	if(!strcmp(data, "log")) return 4;
+	if(!strcmp(data, "minus")) return 4;
+	if(!strcmp(data, "!")) return 5;
 	return 0;
 }
 
@@ -129,6 +131,19 @@ void executeInstruction(operandNode**head, operatorNode**headOp) {
 			res=res*base;
 		stackPushOperand(head, res);
 	}
+	if(!strcmp(operator, "%")) {
+		int b = stackPopOperand(head);
+		int a = stackPopOperand(head);
+		while(a-b>0) a=a-b;
+		stackPushOperand(head, a);
+	}
+	if(!strcmp(operator, "!")) {
+		int a = stackPopOperand(head);
+		int res=1;
+		for(int i=0;i<a;i++)
+			res=res*(i+1);
+		stackPushOperand(head, res);
+	}
 }
 
 void popAndDeleteOpCode(operatorNode**head) {
@@ -148,7 +163,7 @@ void opCodeAnalyzer(dirtData**head, operandNode**headOp, operatorNode**headOpCod
 		return;
 	}
 	if(!strcmp(opCode, ")")) {
-		while(headOpCode!=NULL) {
+		while(*headOpCode!=NULL) {
 			if(!strcmp((*headOpCode)->operator, "(")) {
 				popAndDeleteOpCode(headOpCode);
 				break;
