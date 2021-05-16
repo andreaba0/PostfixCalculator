@@ -31,12 +31,14 @@ char*stackPopOpCode(operatorNode**head) {
 }
 
 int precedenceHierarchy(char*data) {
+	if(data==NULL) return 0;
 	if(!strcmp(data, "+")) return 1;
 	if(!strcmp(data, "-")) return 1;
 	if(!strcmp(data, "*")) return 2;
 	if(!strcmp(data, "/")) return 2;
+	if(!strcmp(data, "^")) return 3;
 	if(!strcmp(data, "pow")) return 3;
-	if(!strcmp(data, "square")) return 3;
+	if(!strcmp(data, "sqrt")) return 3;
 	if(!strcmp(data, "log")) return 3;
 	if(!strcmp(data, "minus")) return 3;
 	return 0;
@@ -54,6 +56,7 @@ char topStackDataType(dirtData*head) {
 }
 
 char*topStackDataValue(operatorNode*head) {
+	if(head==NULL) return NULL;
 	static char data[INSTRLENGTH];
 	strcpy(data, head->operator);
 	return data;
@@ -110,7 +113,7 @@ void executeInstruction(operandNode**head, operatorNode**headOp) {
 		int a = stackPopOperand(head);
 		stackPushOperand(head, a/b);
 	}
-	if(!strcmp(operator, "square")) {
+	if(!strcmp(operator, "sqrt")) {
 		int a = stackPopOperand(head);
 		stackPushOperand(head, sqrt(a));
 	}
@@ -118,11 +121,10 @@ void executeInstruction(operandNode**head, operatorNode**headOp) {
 		int a = stackPopOperand(head);
 		stackPushOperand(head, a*(-1));
 	}
-	if(!strcmp(operator, "pow")) {
+	if(!strcmp(operator, "pow")||!strcmp(operator, "^")) {
 		int exp = stackPopOperand(head);
 		int base = stackPopOperand(head);
 		int res=1;
-		printf("Numeri: %d, %d\n", base, exp);
 		for(int i=0;i<exp;i++)
 			res=res*base;
 		stackPushOperand(head, res);
@@ -156,7 +158,7 @@ void opCodeAnalyzer(dirtData**head, operandNode**headOp, operatorNode**headOpCod
 		return;
 	}
 	char*currentOpCodeStack=topStackDataValue(*headOpCode);
-	while(precedenceHierarchy(currentOpCodeStack)>precedenceHierarchy(opCode)) {
+	while(*headOpCode!=NULL&&precedenceHierarchy(currentOpCodeStack)>precedenceHierarchy(opCode)) {
 		executeInstruction(headOp, headOpCode);
 	}
 	stackPushOpCode(headOpCode, opCode, precedenceHierarchy(opCode));
