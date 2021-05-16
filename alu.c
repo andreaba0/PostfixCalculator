@@ -173,7 +173,7 @@ void opCodeAnalyzer(dirtData**head, operandNode**headOp, operatorNode**headOpCod
 		return;
 	}
 	char*currentOpCodeStack=topStackDataValue(*headOpCode);
-	while(*headOpCode!=NULL&&precedenceHierarchy(currentOpCodeStack)>precedenceHierarchy(opCode)) {
+	while(*headOpCode!=NULL&&precedenceHierarchy(topStackDataValue(*headOpCode))>=precedenceHierarchy(opCode)) {
 		executeInstruction(headOp, headOpCode);
 	}
 	stackPushOpCode(headOpCode, opCode, precedenceHierarchy(opCode));
