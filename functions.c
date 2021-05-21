@@ -54,37 +54,27 @@ dirtData*insertDirtData(dirtData**head, dirtData*current, char*data, char type) 
 	return node;
 }
 
+void manage(dirtData**head, dirtData**pointer, char*part, int*partIndex, int*isALetter, int*isANumber) {
+	part[*partIndex]='\0';
+	if(*isALetter) *pointer = insertDirtData(head, *pointer, part, 'o');
+	if(*isANumber) *pointer = insertDirtData(head, *pointer, part, 'n');
+	*partIndex=0;
+	*isALetter=0;
+	*isANumber=0;
+}
+
 evalRes*evaluateAndExecute(dirtData**head, char*expression) {
 	evalRes*res = malloc(sizeof(evalRes));
 	int isALetter=0;
 	int isANumber=0;
 	char part[20];
-	char partIndex=0;
+	int partIndex=0;
 	dirtData*pointer=NULL;
-	for(int i=0;i<strlen(expression)+1;i++) {
-		if(i==strlen(expression)) {
-				if(partIndex==0) break;
-				if(isALetter) pointer=insertDirtData(head, pointer, part, 'o');
-				if(isANumber) pointer = insertDirtData(head, pointer, part, 'n');
-				break;
-		}
-		if(expression[i]==',') {
-			if(isALetter) pointer=insertDirtData(head, pointer, part, 'o');
-			if(isANumber) pointer=insertDirtData(head, pointer, part, 'n');
-			partIndex=0;
-			isALetter=0;
-			isANumber=0;
-			part[0]='\0';
-		}
+	for(int i=0;i<strlen(expression);i++) {
+		if(expression[i]==',')
+			manage(head, &pointer, part, &partIndex, &isALetter, &isANumber);
 		if(isOpCode(expression[i])) {
-			if(isALetter||isANumber) {
-				part[partIndex]='\0';
-				if(isALetter) pointer = insertDirtData(head, pointer, part, 'o');
-				if(isANumber) pointer = insertDirtData(head, pointer, part, 'n');
-				partIndex=0;
-				isALetter=0;
-				isANumber=0;
-			}
+			manage(head, &pointer, part, &partIndex, &isALetter, &isANumber);
 			part[partIndex++]=expression[i];
 			part[partIndex]='\0';
 			partIndex=0;
@@ -115,6 +105,9 @@ evalRes*evaluateAndExecute(dirtData**head, char*expression) {
 			continue;
 		}
 	}
+
+	if(isALetter) pointer=insertDirtData(head, pointer, part, 'o');
+	if(isANumber) pointer=insertDirtData(head, pointer, part, 'n');
 	//displayDirtData(*head);
 	return NULL;
 }

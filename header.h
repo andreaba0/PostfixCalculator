@@ -49,3 +49,4 @@ void popAndDeleteOpCode(operatorNode**head);
 int precedenceHierarchy(char*data);
 char*topDirtDataStack(dirtData*head);
 void deleteFromDirtData(dirtData**head);
+void manage(dirtData**head, dirtData**pointer, char*part, int*partIndex, int*isALetter, int*isANumber);
