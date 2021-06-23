@@ -29,15 +29,15 @@ int isOpCode(char c) {
 	}
 }
 
-void displayDirtData(dirtData*head) {
+void displayDirtNode(DirtNode*head) {
 	for(int i=0;head!=NULL;i++) {
 		printf("Value %6d: type: %c,  %s\n", i, head->type, head->data);
 		head=head->next;
 	}
 }
 
-dirtData*insertDirtData(dirtData**head, dirtData*current, char*data, char type) {
-	dirtData*temp=malloc(sizeof(dirtData));
+DirtNode*insertDirtNode(DirtNode**head, DirtNode*current, char*data, char type) {
+	DirtNode*temp=malloc(sizeof(DirtNode));
 	if(temp==NULL) return NULL;
 	strcpy(temp->data, data);
 	temp->type=type;
@@ -63,8 +63,8 @@ void examinate(char type, int*index, char*part, char*exp) {
 	part[j]='\0';
 }
 
-int evaluateAndExecute(dirtData**head, char*exp) {
-	dirtData*tail=NULL;
+int evaluateAndExecute(DirtNode**head, char*exp) {
+	DirtNode*tail=NULL;
 	int i=0;
 	char part[WORDDIM];
 	while(i<strlen(exp)) {
@@ -74,43 +74,20 @@ int evaluateAndExecute(dirtData**head, char*exp) {
 		}
 		if(isNumber(exp[i])) {
 			examinate('n', &i, part, exp);
-			tail=insertDirtData(head, tail, part, 'n');
+			tail=insertDirtNode(head, tail, part, 'n');
 			if(part[0]=='.') return 102;
 			continue;
 		}
 		if(isLetter(exp[i])) {
 			examinate('l', &i, part, exp);
-			tail=insertDirtData(head, tail, part, 'o');
+			tail=insertDirtNode(head, tail, part, 'o');
 			continue;
 		}
 		if(isOpCode(exp[i])) {
 			examinate('l', &i, part, exp);
-			tail=insertDirtData(head, tail, part, 'o');
+			tail=insertDirtNode(head, tail, part, 'o');
 			continue;
 		}
-
-		/*if(isNumber(exp[i])) {
-			while(i<strlen(exp)&&isNumber(exp[i]))
-				part[j++]=exp[i++];
-			part[j]='\0';
-			tail=insertDirtData(head, tail, part, 'n');
-			if(part[0]=='.') return 102;
-			continue;
-		}
-		if(isLetter(exp[i])) {
-			while(i<strlen(exp)&&isLetter(exp[i]))
-				part[j++]=exp[i++];
-			part[j]='\0';
-			tail=insertDirtData(head, tail, part, 'o');
-			continue;
-		}
-		if(isOpCode(exp[i])) {
-			while(i<strlen(exp)&&isOpCode(exp[i]))
-				part[j++]=exp[i++];
-			part[j]='\0';
-			tail=insertDirtData(head, tail, part, 'o');
-			continue;
-		}*/
 		return 100;
 	}
 	return 0;

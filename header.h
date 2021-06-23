@@ -6,56 +6,7 @@
 #define INSTRLENGTH 15
 #define WORDDIM 12
 
-typedef struct cellOperator {
-	char operator[INSTRLENGTH];
-	int precedence;
-	struct cellOperator*next;
-} operatorNode;
-
-typedef struct cellOperand {
-	int operand;
-	struct cellOperand*next;
-} operandNode;
-
-typedef struct evalRes {
-	char mex[INSTRLENGTH];
-	double res;
-} evalRes;
-
-typedef struct dirtData {
-	char data[INSTRLENGTH];
-	char type;
-	struct dirtData*next;
-} dirtData;
-
-int isLetter(char c);
-int isOpCode(char c);
-int isNumber(char c);
-int evaluateAndExecute(dirtData**head, char*expression);
-dirtData*insertDirtData(dirtData**head, dirtData*current, char*data, char type);
-void displayDirtData(dirtData*head);
-void stackPushOperand(operandNode**head, int data);
-void stackPushOpCode(operatorNode**head, char*data, int number);
-int stackPopOperand(operandNode**head);
-char*stackPop(dirtData**head);
-int executionUnit(dirtData**head, operandNode**headOp, operatorNode**headOpCode);
-char topStackDataType(dirtData*head);
-void displayStackOpCode(operatorNode*head);
-char*topStackDataValue(operatorNode*head);
-char*operandStackData(operandNode*head);
-void executeInstruction(operandNode**head, operatorNode**headOp);
-char*stackPopOpCode(operatorNode**head);
-void opCodeAnalyzer(dirtData**head, operandNode**headOp, operatorNode**headOpCode);
-void popAndDeleteOpCode(operatorNode**head);
-int precedenceHierarchy(char*data);
-char*topDirtDataStack(dirtData*head);
-void deleteFromDirtData(dirtData**head);
-void manage(dirtData**head, dirtData**pointer, char*part, int*partIndex, int*isALetter, int*isANumber);
-
-int isCorrect(char type, char c);
-void examinate(char type, int*index, char*part, char*exp);
-
-/*struct elem1 {
+struct elem1 {
 	char data[WORDDIM];
 	struct elem1 *next;
 };
@@ -67,7 +18,22 @@ struct elem2 {
 typedef struct elem1 Node;
 typedef struct elem2 DirtNode;
 
+int isLetter(char c);
+int isOpCode(char c);
+int isNumber(char c);
+int isCorrect(char type, char c);
+void examinate(char type, int*index, char*part, char*exp);
+int evaluateAndExecute(DirtNode**head, char*expression);
+DirtNode*insertDirtNode(DirtNode**head, DirtNode*current, char*data, char type);
+void displayDirtNode(DirtNode*head);
+char*topOfStack(Node**head);
 void stackPush(Node**head, char*data);
 float stackPopOperand(Node**head);
 char*stackPopOperator(Node**head);
-dirtNode*listPop(DirtNode**head);*/
+DirtNode*listPop(DirtNode**head);
+int controlUnit(DirtNode**head, Node**stackOperand, Node**stackOperator);
+int operandAnalyzer(char*operator, Node**stackOperand, Node**stackOperator);
+void alu(Node**stackOperand, Node**stackOperator);
+int precedence(char*operator);
+int isEqual(char*one, char*two);
+

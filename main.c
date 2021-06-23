@@ -11,15 +11,15 @@ int main(int argc, char*argv[]) {
 		return 1;
 	}
 	
-	dirtData*head=NULL;
-	operandNode*headOp=NULL;
-	operatorNode*headOpCode=NULL;
+	DirtNode*head=NULL;
+	Node*headOp=NULL;
+	Node*headOpCode=NULL;
 	int res = evaluateAndExecute(&head, argv[1]);
 	if(res!=0) {
 		printf("Espressione non valida\n");
 		return 1;
 	}
-	res = executionUnit(&head, &headOp, &headOpCode);
-	displayStackOpCode(headOpCode);
+	res = controlUnit(&head, &headOp, &headOpCode);
+	printf("Risultato: %s\n", headOp->data);
 	return 0;
 }
