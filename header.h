@@ -4,6 +4,7 @@
 #include <math.h>
 
 #define INSTRLENGTH 15
+#define WORDDIM 12
 
 typedef struct cellOperator {
 	char operator[INSTRLENGTH];
@@ -50,3 +51,23 @@ int precedenceHierarchy(char*data);
 char*topDirtDataStack(dirtData*head);
 void deleteFromDirtData(dirtData**head);
 void manage(dirtData**head, dirtData**pointer, char*part, int*partIndex, int*isALetter, int*isANumber);
+
+int isCorrect(char type, char c);
+void examinate(char type, int*index, char*part, char*exp);
+
+/*struct elem1 {
+	char data[WORDDIM];
+	struct elem1 *next;
+};
+struct elem2 {
+	char data[WORDDIM];
+	char type;
+	struct elem2 *next;
+};
+typedef struct elem1 Node;
+typedef struct elem2 DirtNode;
+
+void stackPush(Node**head, char*data);
+float stackPopOperand(Node**head);
+char*stackPopOperator(Node**head);
+dirtNode*listPop(DirtNode**head);*/

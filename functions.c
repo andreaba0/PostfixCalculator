@@ -48,18 +48,48 @@ dirtData*insertDirtData(dirtData**head, dirtData*current, char*data, char type) 
 	return temp;
 }
 
+int isCorrect(char type, char c) {
+	if(type=='l'&&(isLetter(c)||isOpCode(c)))
+		return 1;
+	if(type=='n'&&isNumber(c))
+		return 1;
+	return 0;
+}
+
+void examinate(char type, int*index, char*part, char*exp) {
+	int j=0;
+	while(*index<strlen(exp)&&isCorrect(type, exp[*index]))
+		part[j++]=exp[(*index)++];
+	part[j]='\0';
+}
+
 int evaluateAndExecute(dirtData**head, char*exp) {
 	dirtData*tail=NULL;
 	int i=0;
-	int j;
-	char part[30];
+	char part[WORDDIM];
 	while(i<strlen(exp)) {
-		j=0;
 		if(exp[i]==',') {
 			i++;
 			continue;
 		}
 		if(isNumber(exp[i])) {
+			examinate('n', &i, part, exp);
+			tail=insertDirtData(head, tail, part, 'n');
+			if(part[0]=='.') return 102;
+			continue;
+		}
+		if(isLetter(exp[i])) {
+			examinate('l', &i, part, exp);
+			tail=insertDirtData(head, tail, part, 'o');
+			continue;
+		}
+		if(isOpCode(exp[i])) {
+			examinate('l', &i, part, exp);
+			tail=insertDirtData(head, tail, part, 'o');
+			continue;
+		}
+
+		/*if(isNumber(exp[i])) {
 			while(i<strlen(exp)&&isNumber(exp[i]))
 				part[j++]=exp[i++];
 			part[j]='\0';
@@ -80,7 +110,7 @@ int evaluateAndExecute(dirtData**head, char*exp) {
 			part[j]='\0';
 			tail=insertDirtData(head, tail, part, 'o');
 			continue;
-		}
+		}*/
 		return 100;
 	}
 	return 0;
