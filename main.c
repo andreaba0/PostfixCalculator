@@ -15,6 +15,10 @@ int main(int argc, char*argv[]) {
 	operandNode*headOp=NULL;
 	operatorNode*headOpCode=NULL;
 	int res = evaluateAndExecute(&head, argv[1]);
+	if(res!=0) {
+		printf("Espressione non valida\n");
+		return 1;
+	}
 	res = executionUnit(&head, &headOp, &headOpCode);
 	displayStackOpCode(headOpCode);
 	return 0;

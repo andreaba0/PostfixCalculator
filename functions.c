@@ -64,6 +64,7 @@ int evaluateAndExecute(dirtData**head, char*exp) {
 				part[j++]=exp[i++];
 			part[j]='\0';
 			tail=insertDirtData(head, tail, part, 'n');
+			if(part[0]=='.') return 102;
 			continue;
 		}
 		if(isLetter(exp[i])) {
@@ -80,6 +81,7 @@ int evaluateAndExecute(dirtData**head, char*exp) {
 			tail=insertDirtData(head, tail, part, 'o');
 			continue;
 		}
+		return 100;
 	}
 	return 0;
 }
