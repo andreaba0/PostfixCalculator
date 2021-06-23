@@ -37,77 +37,49 @@ void displayDirtData(dirtData*head) {
 }
 
 dirtData*insertDirtData(dirtData**head, dirtData*current, char*data, char type) {
-	if(*head==NULL) {
-		*head=malloc(sizeof(dirtData));
-		strcpy((*head)->data, data);
-		(*head)->type=type;
-		(*head)->next=NULL;
-		return *head;
-	}
+	dirtData*temp=malloc(sizeof(dirtData));
+	if(temp==NULL) return NULL;
+	strcpy(temp->data, data);
+	temp->type=type;
+	temp->next=NULL;
 
-	dirtData*node = malloc(sizeof(dirtData));
-	strcpy(node->data, data);
-	node->type=type;
-	node->next=NULL;
-	if(current==*head) (*head)->next=node;
-	else current->next=node;
-	return node;
+	if(*head==NULL) *head=temp;
+	else current->next=temp;
+	return temp;
 }
 
-void manage(dirtData**head, dirtData**pointer, char*part, int*partIndex, int*isALetter, int*isANumber) {
-	part[*partIndex]='\0';
-	if(*isALetter) *pointer = insertDirtData(head, *pointer, part, 'o');
-	if(*isANumber) *pointer = insertDirtData(head, *pointer, part, 'n');
-	*partIndex=0;
-	*isALetter=0;
-	*isANumber=0;
-}
-
-evalRes*evaluateAndExecute(dirtData**head, char*expression) {
-	evalRes*res = malloc(sizeof(evalRes));
-	int isALetter=0;
-	int isANumber=0;
-	char part[20];
-	int partIndex=0;
-	dirtData*pointer=NULL;
-	for(int i=0;i<strlen(expression);i++) {
-		if(expression[i]==',')
-			manage(head, &pointer, part, &partIndex, &isALetter, &isANumber);
-		if(isOpCode(expression[i])) {
-			manage(head, &pointer, part, &partIndex, &isALetter, &isANumber);
-			part[partIndex++]=expression[i];
-			part[partIndex]='\0';
-			partIndex=0;
-			pointer = insertDirtData(head, pointer, part, 'o');
-			part[0]='\0';
+int evaluateAndExecute(dirtData**head, char*exp) {
+	dirtData*tail=NULL;
+	int i=0;
+	int j;
+	char part[30];
+	while(i<strlen(exp)) {
+		j=0;
+		if(exp[i]==',') {
+			i++;
 			continue;
 		}
-		if(isLetter(expression[i])) {
-			if(isANumber) {
-				part[partIndex]='\0';
-				pointer = insertDirtData(head, pointer, part, 'n');
-				partIndex=0;
-				isANumber=0;
-			}
-			part[partIndex++]=expression[i];
-			isALetter=1;
+		if(isNumber(exp[i])) {
+			while(i<strlen(exp)&&isNumber(exp[i]))
+				part[j++]=exp[i++];
+			part[j]='\0';
+			tail=insertDirtData(head, tail, part, 'n');
 			continue;
 		}
-		if(isNumber(expression[i])) {
-			if(isALetter) {
-				part[partIndex]='\0';
-				pointer = insertDirtData(head, pointer, part, 'o');
-				partIndex=0;
-				isALetter=0;
-			}
-			part[partIndex++]=expression[i];
-			isANumber=1;
+		if(isLetter(exp[i])) {
+			while(i<strlen(exp)&&isLetter(exp[i]))
+				part[j++]=exp[i++];
+			part[j]='\0';
+			tail=insertDirtData(head, tail, part, 'o');
+			continue;
+		}
+		if(isOpCode(exp[i])) {
+			while(i<strlen(exp)&&isOpCode(exp[i]))
+				part[j++]=exp[i++];
+			part[j]='\0';
+			tail=insertDirtData(head, tail, part, 'o');
 			continue;
 		}
 	}
-
-	if(isALetter) pointer=insertDirtData(head, pointer, part, 'o');
-	if(isANumber) pointer=insertDirtData(head, pointer, part, 'n');
-	//displayDirtData(*head);
-	return NULL;
+	return 0;
 }

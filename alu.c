@@ -179,7 +179,7 @@ void opCodeAnalyzer(dirtData**head, operandNode**headOp, operatorNode**headOpCod
 	stackPushOpCode(headOpCode, opCode, precedenceHierarchy(opCode));
 }
 
-evalRes*executionUnit(dirtData**head, operandNode**headOp, operatorNode**headOpCode) {
+int executionUnit(dirtData**head, operandNode**headOp, operatorNode**headOpCode) {
 	char temp;
 	char*dirtData;
 	int i=0;
@@ -198,5 +198,5 @@ evalRes*executionUnit(dirtData**head, operandNode**headOp, operatorNode**headOpC
 	}
 	while(*headOpCode!=NULL) executeInstruction(headOp, headOpCode);
 	printf("Risultato: %d\n", (*headOp)->operand);
-	return NULL;
+	return 0;
 }

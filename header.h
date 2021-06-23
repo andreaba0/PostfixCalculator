@@ -30,14 +30,14 @@ typedef struct dirtData {
 int isLetter(char c);
 int isOpCode(char c);
 int isNumber(char c);
-evalRes*evaluateAndExecute(dirtData**head, char*expression);
+int evaluateAndExecute(dirtData**head, char*expression);
 dirtData*insertDirtData(dirtData**head, dirtData*current, char*data, char type);
 void displayDirtData(dirtData*head);
 void stackPushOperand(operandNode**head, int data);
 void stackPushOpCode(operatorNode**head, char*data, int number);
 int stackPopOperand(operandNode**head);
 char*stackPop(dirtData**head);
-evalRes*executionUnit(dirtData**head, operandNode**headOp, operatorNode**headOpCode);
+int executionUnit(dirtData**head, operandNode**headOp, operatorNode**headOpCode);
 char topStackDataType(dirtData*head);
 void displayStackOpCode(operatorNode*head);
 char*topStackDataValue(operatorNode*head);
