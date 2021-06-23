@@ -13,7 +13,9 @@ int precedence(char*data) {
 	if(isEqual(data, "log")) return 4;
 	if(isEqual(data, "minus")) return 4;
 	if(isEqual(data, "!")) return 5;
-	return 0;
+	if(isEqual(data, "fat")) return 5;
+	if(isEqual(data, "(")||isEqual(data, ")")) return 0;
+	return -1;
 }
 
 int alu(Node**head, Node**headOp) {
@@ -83,7 +85,7 @@ int alu(Node**head, Node**headOp) {
 		stackPush(head, res);
 		return 1;
 	}
-	if(isEqual(operator, "!")) {
+	if(isEqual(operator, "!")||isEqual(operator, "fat")) {
 		int a = stackPopOperand(head);
 		int r=1;
 		for(int i=0;i<a;i++)

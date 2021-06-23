@@ -28,6 +28,7 @@ int isEqual(char*one, char*two) {
 
 int operandAnalyzer(char*operator, Node**stackOperand, Node**stackOperator) {
     int ok;
+    if(precedence(operator)==-1) return 302;
     if(*stackOperator==NULL) {
         stackPush(stackOperator, operator);
         return 1;
