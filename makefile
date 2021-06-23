@@ -1,5 +1,5 @@
-calculator: main.o functions.o alu.o processor.o stackFunctions.o
-	gcc -o calculator.out main.o functions.o alu.o processor.o stackFunctions.o -lm
+calculator: main.o functions.o alu.o processor.o stackFunctions.o debug.o
+	gcc -o calculator.out main.o functions.o alu.o processor.o stackFunctions.o debug.o -lm
 
 main.o: main.c header.h
 	gcc -c main.c
@@ -15,3 +15,6 @@ processor.o: processor.c header.h
 
 stackFunctions.o: stackFunctions.c header.h
 	gcc -c stackFunctions.c
+
+debug.o: debug.c header.h
+	gcc -c debug.c

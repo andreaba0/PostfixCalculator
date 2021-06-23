@@ -14,12 +14,16 @@ int main(int argc, char*argv[]) {
 	DirtNode*head=NULL;
 	Node*headOp=NULL;
 	Node*headOpCode=NULL;
-	int res = evaluateAndExecute(&head, argv[1]);
+	int res = evaluate(&head, argv[1]);
 	if(res!=0) {
 		printf("Espressione non valida\n");
 		return 1;
 	}
 	res = controlUnit(&head, &headOp, &headOpCode);
+	if(res!=1) {
+		printf("Errore durante il calcolo (%d)\n", res);
+		return 1;
+	}
 	printf("Risultato: %s\n", headOp->data);
 	return 0;
 }

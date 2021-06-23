@@ -29,13 +29,6 @@ int isOpCode(char c) {
 	}
 }
 
-void displayDirtNode(DirtNode*head) {
-	for(int i=0;head!=NULL;i++) {
-		printf("Value %6d: type: %c,  %s\n", i, head->type, head->data);
-		head=head->next;
-	}
-}
-
 DirtNode*insertDirtNode(DirtNode**head, DirtNode*current, char*data, char type) {
 	DirtNode*temp=malloc(sizeof(DirtNode));
 	if(temp==NULL) return NULL;
@@ -49,7 +42,7 @@ DirtNode*insertDirtNode(DirtNode**head, DirtNode*current, char*data, char type) 
 }
 
 int isCorrect(char type, char c) {
-	if(type=='l'&&(isLetter(c)||isOpCode(c)))
+	if(type=='l'&&isLetter(c))
 		return 1;
 	if(type=='n'&&isNumber(c))
 		return 1;
@@ -63,7 +56,7 @@ void examinate(char type, int*index, char*part, char*exp) {
 	part[j]='\0';
 }
 
-int evaluateAndExecute(DirtNode**head, char*exp) {
+int evaluate(DirtNode**head, char*exp) {
 	DirtNode*tail=NULL;
 	int i=0;
 	char part[WORDDIM];
@@ -84,7 +77,9 @@ int evaluateAndExecute(DirtNode**head, char*exp) {
 			continue;
 		}
 		if(isOpCode(exp[i])) {
-			examinate('l', &i, part, exp);
+			//examinate('l', &i, part, exp);
+			part[0]=exp[i++];
+			part[1]='\0';
 			tail=insertDirtNode(head, tail, part, 'o');
 			continue;
 		}
